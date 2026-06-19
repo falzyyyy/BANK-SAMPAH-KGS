@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Custom excluded files (user requested)
+Brief_dan_SRS_Bank Sampah KGS.docx
+Profil Bank sampah kgs_20250811_180850_0000.pdf
+supabase_schema.sql
+/assests/
+
+# Agent/IDE metadata
+AGENTS.md
+CLAUDE.md

@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍃 Bank Sampah KGS Palembang
+> **"Turning Waste into Worth — Empowering Palembang’s Circular Economy"**
+> 
+> Platform digital berestetika premium editorial-organik untuk tata kelola sampah mandiri, edukasi lingkungan, dan pemberdayaan ekonomi sirkular masyarakat Kota Palembang.
 
-## Getting Started
+---
 
-First, run the development server:
+## 📊 Slide 1: Problem & Solution
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🛑 The Problem
+*   **Sampah Domestik Tak Terkelola**: Tumpukan sampah rumah tangga tanpa pemilahan yang memicu pencemaran lingkungan lokal di Palembang.
+*   **Kurangnya Transparansi Harga**: Masyarakat kesulitan memantau harga pasar riil sampah daur ulang secara instan.
+*   **Kurangnya Edukasi Aksi**: Edukasi pengelolaan sampah (Organik, Anorganik, B3) sering kali membosankan dan kurang interaktif.
+
+### ✨ The Solution (KGS Platform)
+*   **Katalog Harga Transparan**: Daftar harga penukaran sampah (Plastik, Kardus, Kaleng) yang diperbarui secara langsung oleh Admin.
+*   **Dampak Nyata yang Tervisualisasi**: Dashboard statistik dinamis yang mengonversi kilogram sampah daur ulang menjadi metrik dampak nyata (contoh: jumlah pohon diselamatkan).
+*   **Navigasi Ramah Pengguna**: Layout responsif premium dengan transisi halaman yang mulus dan aset animasi 3D.
+
+---
+
+## 🚀 Slide 2: Core Features (Fitur Utama)
+
+1.  **Page Preloader (Splash Screen)**
+    *   Animasi pembuka logo daun KGS yang dinamis dan elegan saat situs pertama kali dimuat.
+2.  **3D Assets & Animasi Interaktif**
+    *   Integrasi render bentuk 3D menggunakan WebGL/Three.js yang mengambang lembut mengikuti interaksi cursor mouse pengunjung.
+3.  **Grafik Dampak Lingkungan Berdampingan**
+    *   Layout modern dua kolom: Kolom Kiri menampilkan metrik ekologis (hemat energi, selamatkan pohon) dan Kolom Kanan menyajikan visualisasi grafik batang kontribusi sampah (`WasteChart`).
+4.  **Katalog & Edukasi 3R**
+    *   Panduan pemilahan komprehensif untuk sampah Organik, Anorganik, dan B3 lengkap dengan tindakan yang dianjurkan (Do's & Don'ts).
+5.  **WhatsApp Chat Integration**
+    *   Tombol melayang (*floating button*) di sudut halaman yang terhubung langsung ke WhatsApp Admin KGS untuk koordinasi penjemputan/penyetoran sampah yang praktis.
+6.  **Hidden Admin Panel (`/admin`)**
+    *   Panel admin yang aman tanpa tombol fisik di halaman publik. Admin dapat mengelola:
+        *   Data statistik setoran sampah bulanan.
+        *   Daftar harga katalog sampah daur ulang.
+        *   Slide promosi Hero Carousel.
+        *   Informasi alamat dan peta kontak operasional.
+
+---
+
+## 🛠️ Slide 3: The Tech Stack
+
+*   **Frontend Framework**: Next.js 15.3.3 (React, App Router, TypeScript)
+*   **Styling**: Tailwind CSS & Vanilla CSS custom variables (untuk fluid dark/light mode)
+*   **3D Render**: Three.js & Lucide React Icons
+*   **Backend & Database**: Supabase (PostgreSQL, Supabase Auth, JS Client)
+*   **Hosting Compatibility**: Vercel / Netlify / VPS Linux
+
+---
+
+## ⚙️ Slide 4: Getting Started (Cara Menjalankan)
+
+### 1. Prasyarat
+*   Node.js versi 18.x atau yang lebih baru.
+*   Akun Supabase (untuk menyimpan data dinamis).
+
+### 2. Konfigurasi Environment (`.env.local`)
+Buat berkas `.env.local` di direktori utama proyek Anda dan isi dengan kredensial Supabase Anda:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Instalasi Dependensi
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Menjalankan Server Pengembangan
+```bash
+npm run dev
+```
+Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk melihat situs web.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. Build untuk Produksi
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 💎 Slide 5: The Impact & Mission
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> *"Perempuan memiliki peran strategis dalam pengelolaan sampah karena sebagian besar sampah dihasilkan dari sampah rumah tangga. Sekarang perempuan harus peduli lingkungan sebab, sampah paling banyak dihasilkan dari rumah tangga."*
+> 
+> — **Welis Fatimah**, Direktur Bank Sampah KGS Palembang
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+KGS berkomitmen menjadi pelopor ekonomi sirkular ramah lingkungan di Palembang, mengubah kebiasaan membuang sampah menjadi tabungan bernilai ekonomis yang berkelanjutan.
