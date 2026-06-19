@@ -44,8 +44,11 @@ next-env.d.ts
 Brief_dan_SRS_Bank Sampah KGS.docx
 Profil Bank sampah kgs_20250811_180850_0000.pdf
 supabase_schema.sql
+supabase_rls_fix.sql
 /assests/
+/documentation/
 
 # Agent/IDE metadata
 AGENTS.md
 CLAUDE.md
+

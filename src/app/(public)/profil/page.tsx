@@ -1,6 +1,7 @@
 import { Calendar, Award, MapPin, Leaf, CheckCircle2, Quote } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ProfileCarousel from "@/components/ui/ProfileCarousel";
+import Image from "next/image";
 
 export const metadata = {
   title: "Profil - Bank Sampah KGS Palembang",
@@ -9,10 +10,15 @@ export const metadata = {
 
 export default function ProfilPage() {
   const profileImages = [
+    "/images/profile/doc_1.jpeg",
+    "/images/profile/doc_2.jpeg",
+    "/images/profile/doc_6.jpeg",
+    "/images/profile/doc_7.jpeg",
     "/images/profile/p_1.jpg",
     "/images/profile/p_2.jpg",
     "/images/profile/p_3.jpg",
   ];
+
 
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: "var(--bg-primary)" }}>
@@ -58,23 +64,23 @@ export default function ProfilPage() {
                 </div>
 
                 {/* Info Cards Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Card 1 */}
-                  <div className="flex items-center gap-4 p-4 rounded-sm border transition-all duration-300 hover:shadow-sm"
-                       style={{ backgroundColor: "var(--bg-secondary)", borderColor: "var(--border-default)" }}>
-                    <div className="w-10 h-10 rounded-sm flex items-center justify-center bg-emerald-500/10 text-[#2d6a4f] shrink-0">
+                  <div className="flex items-center gap-4 p-5 rounded-2xl glass-card glow-card-hover"
+                       style={{ borderColor: "var(--border-default)" }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-emerald-500/10 text-[#2d6a4f] shrink-0">
                       <Calendar className="w-5 h-5" />
                     </div>
                     <div>
                       <p className="text-[10px] font-semibold tracking-wider uppercase text-neutral-400">Berdiri Sejak</p>
-                      <p className="text-xl font-bold text-[#2d6a4f]">2015</p>
+                      <p className="text-xl font-bold text-[#2d6a4f] dark:text-[#52b788]">2015</p>
                     </div>
                   </div>
 
                   {/* Card 2 */}
-                  <div className="flex items-center gap-4 p-4 rounded-sm border transition-all duration-300 hover:shadow-sm"
-                       style={{ backgroundColor: "var(--bg-secondary)", borderColor: "var(--border-default)" }}>
-                    <div className="w-10 h-10 rounded-sm flex items-center justify-center bg-blue-500/10 text-blue-600 shrink-0">
+                  <div className="flex items-center gap-4 p-5 rounded-2xl glass-card glow-card-hover"
+                       style={{ borderColor: "var(--border-default)" }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-500/10 text-blue-600 shrink-0">
                       <Award className="w-5 h-5" />
                     </div>
                     <div>
@@ -155,8 +161,8 @@ export default function ProfilPage() {
 
                 {/* Timeline Card Content */}
                 <ScrollReveal variant="fade-up" delayMs={i * 100}>
-                  <div className="p-6 rounded-sm border transition-all duration-300 hover:shadow-md"
-                       style={{ backgroundColor: "var(--bg-primary)", borderColor: "var(--border-default)" }}>
+                  <div className="p-6 glass-card glow-card-hover rounded-2xl border transition-all duration-300 hover:shadow-md"
+                       style={{ borderColor: "var(--border-default)" }}>
                     <div className="flex flex-wrap items-center gap-3 mb-2">
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${node.badgeBg}`}>
                         {node.year}
@@ -179,7 +185,7 @@ export default function ProfilPage() {
       {/* Quote Direktur */}
       <section className="py-20 max-w-5xl mx-auto px-6 lg:px-8">
         <ScrollReveal variant="scale-in">
-          <div className="bg-[#1a1a2e] rounded-sm p-8 md:p-12 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1b] rounded-2xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
             <Quote className="absolute top-6 right-6 w-20 h-20 text-white opacity-5" />
             <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
               <div className="w-32 h-32 shrink-0 rounded-full overflow-hidden border-2 border-[#2d6a4f] bg-[#2d6a4f]/20 flex items-center justify-center">
@@ -212,22 +218,22 @@ export default function ProfilPage() {
             <span className="label-tag inline-block">Arah Kami</span>
           </div>
           <h2 className="font-serif text-3xl mb-10" style={{ color: "var(--text-primary)" }}>Visi & Misi</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ backgroundColor: "var(--border-default)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Visi */}
-            <div className="p-8 md:p-10" style={{ backgroundColor: "var(--bg-secondary)" }}>
-              <div className="w-10 h-10 rounded-sm flex items-center justify-center mb-6 bg-[#d8f3dc]">
-                <span className="text-[#2d6a4f] font-bold text-sm">V</span>
+            <div className="p-8 md:p-10 glass-card glow-card-hover rounded-2xl">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-6 bg-[#2d6a4f]/10">
+                <span className="text-[#2d6a4f] dark:text-[#52b788] font-bold text-sm">V</span>
               </div>
               <h3 className="font-serif text-2xl mb-4" style={{ color: "var(--text-primary)" }}>Visi</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+              <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 Menjadi pelopor pengelolaan sampah berkelanjutan yang memberdayakan masyarakat serta menciptakan lingkungan bebas sampah untuk generasi mendatang.
               </p>
             </div>
 
             {/* Misi */}
-            <div className="p-8 md:p-10" style={{ backgroundColor: "var(--bg-secondary)" }}>
-              <div className="w-10 h-10 rounded-sm flex items-center justify-center mb-6 bg-[#d8f3dc]">
-                <span className="text-[#2d6a4f] font-bold text-sm">M</span>
+            <div className="p-8 md:p-10 glass-card glow-card-hover rounded-2xl">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-6 bg-[#2d6a4f]/10">
+                <span className="text-[#2d6a4f] dark:text-[#52b788] font-bold text-sm">M</span>
               </div>
               <h3 className="font-serif text-2xl mb-4" style={{ color: "var(--text-primary)" }}>Misi</h3>
               <ul className="space-y-3">
@@ -238,8 +244,8 @@ export default function ProfilPage() {
                   "Mengembangkan produk daur ulang yang inovatif dan ramah lingkungan sebagai sumber pendapatan tambahan.",
                   "Berkolaborasi dengan pemerintah, swasta, dan komunitas untuk menciptakan ekosistem ekonomi sirkular yang kuat dan berkelanjutan.",
                 ].map((misi, idx) => (
-                  <li key={idx} className="flex gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    <CheckCircle2 className="w-4 h-4 text-[#2d6a4f] shrink-0 mt-0.5" />
+                  <li key={idx} className="flex gap-3 text-xs" style={{ color: "var(--text-secondary)" }}>
+                    <CheckCircle2 className="w-4 h-4 text-[#2d6a4f] dark:text-[#52b788] shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{misi}</span>
                   </li>
                 ))}
@@ -247,6 +253,92 @@ export default function ProfilPage() {
             </div>
           </div>
         </ScrollReveal>
+
+      </section>
+
+      {/* Galeri Dokumentasi */}
+      <section className="py-20 border-t" style={{ borderColor: "var(--border-default)" }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <ScrollReveal variant="fade-up">
+            <div className="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <div className="mb-4">
+                  <span className="label-tag inline-block">Aktivitas Riil</span>
+                </div>
+                <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ color: "var(--text-primary)" }}>
+                  Galeri Dokumentasi <br />
+                  <span className="text-gradient">Kegiatan KGS</span>
+                </h2>
+              </div>
+              <p className="text-xs max-w-sm" style={{ color: "var(--text-muted)" }}>
+                Dokumentasi foto kegiatan pelatihan daur ulang, kemitraan internasional KIAT, pos pemberdayaan keluarga, serta edukasi anak-anak.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                {
+                  src: "/images/profile/doc_1.jpeg",
+                  title: "Pelatihan Daur Ulang",
+                  desc: "Pembuatan produk kerajinan tangan bernilai ekonomi dari olahan kertas koran oleh ibu-ibu nasabah."
+                },
+                {
+                  src: "/images/profile/doc_2.jpeg",
+                  title: "Kemitraan KIAT",
+                  desc: "Pelatihan usaha mikro dasar bersama Kemitraan Indonesia Australia untuk Infrastruktur (KIAT)."
+                },
+                {
+                  src: "/images/profile/doc_3.jpeg",
+                  title: "Proses Menganyam",
+                  desc: "Kreativitas nasabah KGS dalam memilin dan merajut lembaran koran menjadi anyaman fungsional."
+                },
+                {
+                  src: "/images/profile/doc_4.jpeg",
+                  title: "Detail Kerajinan",
+                  desc: "Proses detail pembentukan produk menggunakan cetakan daur ulang untuk kualitas presisi."
+                },
+                {
+                  src: "/images/profile/doc_5.jpeg",
+                  title: "Pengurus & Pembimbing KIAT",
+                  desc: "Kolaborasi kepemimpinan dan sanitasi inklusif bersama perwakilan tim ahli kemitraan."
+                },
+                {
+                  src: "/images/profile/doc_6.jpeg",
+                  title: "Playdate Keluarga KGS",
+                  desc: "Kegiatan edukatif anak-anak dan keluarga nasabah untuk mengenalkan kepedulian lingkungan."
+                },
+                {
+                  src: "/images/profile/doc_7.jpeg",
+                  title: "Posdaya & Dongeng Anak",
+                  desc: "Pemberdayaan keluarga dan sosialisasi dini melalui dongeng interaktif bertema cinta bumi."
+                }
+              ].map((item, idx) => (
+                <div 
+                  key={idx} 
+                  className="group glass-card glow-card-hover rounded-2xl overflow-hidden shadow-sm flex flex-col h-full"
+                >
+                  <div className="relative w-full h-[220px] overflow-hidden">
+                    <Image
+                      src={item.src}
+                      alt={item.title}
+                      fill
+                      sizes="(max-w-768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="font-serif text-lg font-bold mb-2 text-[#2d6a4f] dark:text-[#52b788]">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
       </section>
     </div>
   );

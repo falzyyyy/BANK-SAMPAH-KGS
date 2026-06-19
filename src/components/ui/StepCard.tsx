@@ -9,12 +9,12 @@ interface StepCardProps {
 
 export default function StepCard({ number, title, description, icon }: StepCardProps) {
   return (
-    <div className="group relative flex flex-col card-hover p-2">
+    <div className="group relative flex flex-col glass-card glow-card-hover rounded-2xl p-6 min-h-[280px]">
       {/* Large background number */}
       <div className="flex items-center mb-6">
         <span
-          className="font-serif text-7xl font-bold leading-none select-none transition-colors duration-300"
-          style={{ color: "var(--border-default)" }}
+          className="font-serif text-6xl font-bold leading-none select-none transition-colors duration-300 opacity-20"
+          style={{ color: "var(--text-muted)" }}
         >
           {String(number).padStart(2, "0")}
         </span>
@@ -22,7 +22,7 @@ export default function StepCard({ number, title, description, icon }: StepCardP
 
       {/* Icon */}
       <div
-        className="w-11 h-11 rounded-sm flex items-center justify-center mb-5 transition-all duration-300 group-hover:bg-[#2d6a4f] group-hover:text-white"
+        className="w-11 h-11 rounded-lg flex items-center justify-center mb-5 transition-all duration-300 group-hover:bg-[#2d6a4f] group-hover:text-white"
         style={{ backgroundColor: "var(--bg-tertiary)", color: "#2d6a4f" }}
       >
         <div className="w-5 h-5">{icon}</div>
@@ -30,14 +30,14 @@ export default function StepCard({ number, title, description, icon }: StepCardP
 
       {/* Text */}
       <h3
-        className="font-semibold text-base mb-3 tracking-tight"
+        className="font-semibold text-base mb-2 tracking-tight"
         style={{ color: "var(--text-primary)" }}
       >
         {title}
       </h3>
       <p
-        className="text-sm leading-relaxed flex-1"
-        style={{ color: "var(--text-secondary)" }}
+        className="text-xs leading-relaxed flex-1"
+        style={{ color: "var(--text-muted)" }}
       >
         {description}
       </p>
@@ -52,3 +52,4 @@ export default function StepCard({ number, title, description, icon }: StepCardP
     </div>
   );
 }
+

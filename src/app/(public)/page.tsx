@@ -12,6 +12,8 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ThreeDAsset from "@/components/ui/ThreeDAsset";
 import ThreeDShapes from "@/components/ui/ThreeDShapes";
 import WasteChart from "@/components/ui/WasteChart";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
+
 
 
 export const dynamic = "force-dynamic";
@@ -170,7 +172,7 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* 3D WebGL Canvas */}
-            <div className="lg:col-span-5 h-[360px] border border-dashed border-[#2d6a4f]/20 rounded-sm flex flex-col items-center justify-center p-6 relative overflow-hidden bg-emerald-50/20 dark:bg-emerald-950/5">
+            <div className="lg:col-span-5 h-[360px] glass-card rounded-2xl flex flex-col items-center justify-center p-6 relative overflow-hidden neon-glow-green">
               <ThreeDAsset />
               <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-[#2d6a4f] dark:text-[#52b788] font-bold">
@@ -182,49 +184,53 @@ export default async function Home() {
             {/* Stats Cards */}
             <div className="lg:col-span-7">
               <ScrollReveal variant="scale-in" delayMs={150}>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-px" style={{ backgroundColor: "var(--border-default)" }}>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   {[
                     {
                       icon: <Trash2 className="w-5 h-5" />,
-                      value: `${stats.total_sampah.toLocaleString("id-ID")}`,
+                      rawVal: stats.total_sampah,
+                      decimals: 1,
                       unit: "Kg",
                       label: "Total Sampah Terkelola / Bulan",
                     },
                     {
                       icon: <Users className="w-5 h-5" />,
-                      value: `${stats.total_nasabah}`,
+                      rawVal: stats.total_nasabah,
+                      decimals: 0,
                       unit: "+",
                       label: "Nasabah Aktif",
                     },
                     {
                       icon: <Sprout className="w-5 h-5" />,
-                      value: "4",
+                      rawVal: 4,
+                      decimals: 0,
                       unit: "",
                       label: "Jenis Produk Diterima",
                     },
                   ].map((stat, i) => (
                     <div
                       key={i}
-                      className="p-8 group card-hover"
-                      style={{ backgroundColor: "var(--bg-secondary)" }}
+                      className="p-8 group glass-card glow-card-hover rounded-2xl flex flex-col justify-between min-h-[220px]"
                     >
-                      <div
-                        className="w-10 h-10 rounded-sm flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#2d6a4f] group-hover:text-white"
-                        style={{ backgroundColor: "var(--bg-tertiary)", color: "#2d6a4f" }}
-                      >
-                        {stat.icon}
-                      </div>
-                      <div className="flex items-baseline gap-1 mb-2">
-                        <span className="font-serif text-4xl md:text-5xl font-bold text-[#2d6a4f]">
-                          {stat.value}
-                        </span>
-                        {stat.unit && (
-                          <span className="text-base font-medium" style={{ color: "var(--text-muted)" }}>
-                            {stat.unit}
+                      <div>
+                        <div
+                          className="w-10 h-10 rounded-lg flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#2d6a4f] group-hover:text-white"
+                          style={{ backgroundColor: "var(--bg-tertiary)", color: "#2d6a4f" }}
+                        >
+                          {stat.icon}
+                        </div>
+                        <div className="flex items-baseline gap-1 mb-2">
+                          <span className="font-serif text-3xl md:text-4xl font-bold text-[#2d6a4f] dark:text-[#52b788]">
+                            <AnimatedCounter value={stat.rawVal} decimals={stat.decimals} />
                           </span>
-                        )}
+                          {stat.unit && (
+                            <span className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>
+                              {stat.unit}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <p className="text-xs leading-snug" style={{ color: "var(--text-secondary)" }}>{stat.label}</p>
+                      <p className="text-xs leading-snug mt-auto" style={{ color: "var(--text-secondary)" }}>{stat.label}</p>
                     </div>
                   ))}
                 </div>
@@ -351,34 +357,35 @@ export default async function Home() {
           </ScrollReveal>
 
           <ScrollReveal variant="fade-up" delayMs={100}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ backgroundColor: "var(--border-default)" }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {programs.map((program, idx) => (
                 <div
                   key={idx}
-                  className="p-8 group card-hover"
-                  style={{ backgroundColor: "var(--bg-secondary)" }}
+                  className="p-8 group glass-card glow-card-hover rounded-2xl flex flex-col justify-between min-h-[240px]"
                 >
-                  <div
-                    className="w-10 h-10 rounded-sm flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#2d6a4f] group-hover:text-white"
-                    style={{ backgroundColor: "var(--bg-tertiary)", color: "#2d6a4f" }}
-                  >
-                    {program.icon}
+                  <div>
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#2d6a4f] group-hover:text-white"
+                      style={{ backgroundColor: "var(--bg-tertiary)", color: "#2d6a4f" }}
+                    >
+                      {program.icon}
+                    </div>
+                    <h3 className="font-semibold mb-3 text-base tracking-tight" style={{ color: "var(--text-primary)" }}>
+                      {program.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                      {program.desc}
+                    </p>
                   </div>
-                  <h3 className="font-semibold mb-3 text-base tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    {program.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                    {program.desc}
-                  </p>
                 </div>
               ))}
 
               {/* View All Card */}
-              <div className="bg-[#2d6a4f] p-8 group card-hover flex flex-col justify-between relative overflow-hidden min-h-[250px]">
+              <div className="bg-gradient-to-br from-[#2d6a4f] to-[#1b4332] p-8 group glow-card-hover rounded-2xl flex flex-col justify-between relative overflow-hidden min-h-[250px] shadow-lg">
                 <div className="absolute -right-6 -bottom-6 w-32 h-32 opacity-25">
                   <ThreeDShapes shape="torus" />
                 </div>
-                <div className="w-10 h-10 border border-white/20 rounded-sm flex items-center justify-center text-white mb-6 z-10">
+                <div className="w-10 h-10 border border-white/20 rounded-lg flex items-center justify-center text-white mb-6 z-10 bg-white/5">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <div className="z-10">

@@ -291,3 +291,38 @@ body {
 .card-hover, .btn-primary, .btn-outline, .link-underline::after {
   transition-property: transform, box-shadow, opacity, width, background-color, color, border-color;
 }
+
+/* =============================================
+   PREMIUM GLASSMORPHISM & EFFECTS
+   ============================================= */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(45, 106, 79, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(22, 27, 34, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.neon-glow-green {
+  box-shadow: 0 0 20px rgba(82, 183, 136, 0.15);
+}
+
+.glow-card-hover {
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.glow-card-hover:hover {
+  transform: translateY(-6px);
+  border-color: rgba(82, 183, 136, 0.4);
+  box-shadow: 0 20px 35px rgba(45, 106, 79, 0.08), 0 0 15px rgba(82, 183, 136, 0.1);
+}
+
+[data-theme="dark"] .glow-card-hover:hover {
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4), 0 0 15px rgba(82, 183, 136, 0.15);
+}
+

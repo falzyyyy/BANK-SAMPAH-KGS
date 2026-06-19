@@ -77,25 +77,26 @@ export default async function KatalogPage() {
               {Object.entries(groupedPrices).map(([category, items]) => (
                 <div
                   key={category}
-                  className="overflow-hidden rounded-sm mb-8 last:mb-0"
-                  style={{ border: "1px solid var(--border-default)" }}
+                  className="overflow-hidden glass-card rounded-2xl mb-8 last:mb-0 shadow-sm"
                 >
                   <div
-                    className="px-6 py-4 flex items-center gap-2"
-                    style={{ backgroundColor: "var(--bg-tertiary)", borderBottom: "1px solid var(--border-default)" }}
+                    className="px-6 py-5 flex items-center gap-3"
+                    style={{ backgroundColor: "rgba(45, 106, 79, 0.05)", borderBottom: "1px solid var(--border-default)" }}
                   >
-                    <PackageOpen className="w-4 h-4 text-[#2d6a4f]" />
-                    <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color: "var(--text-primary)" }}>
+                    <div className="w-8 h-8 rounded-lg bg-[#2d6a4f]/10 flex items-center justify-center">
+                      <PackageOpen className="w-4 h-4 text-[#2d6a4f] dark:text-[#52b788]" />
+                    </div>
+                    <h2 className="text-sm font-bold tracking-widest uppercase" style={{ color: "var(--text-primary)" }}>
                       {category}
                     </h2>
                   </div>
-                  <div className="overflow-x-auto" style={{ backgroundColor: "var(--bg-secondary)" }}>
+                  <div className="overflow-x-auto">
                     <table className="w-full text-left">
                       <thead style={{ borderBottom: "1px solid var(--border-default)" }}>
                         <tr>
-                          <th className="px-6 py-3 text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>Jenis Sampah</th>
-                          <th className="px-6 py-3 text-xs font-semibold tracking-widest uppercase text-right" style={{ color: "var(--text-muted)" }}>Harga</th>
-                          <th className="px-6 py-3 text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>Satuan</th>
+                          <th className="px-6 py-4 text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>Jenis Sampah</th>
+                          <th className="px-6 py-4 text-xs font-semibold tracking-widest uppercase text-right" style={{ color: "var(--text-muted)" }}>Harga</th>
+                          <th className="px-6 py-4 text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>Satuan</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -103,10 +104,10 @@ export default async function KatalogPage() {
                           <tr
                             key={item.id}
                             style={{ borderTop: i > 0 ? "1px solid var(--border-subtle)" : "none" }}
-                            className="transition-colors duration-150"
+                            className="hover:bg-[#2d6a4f]/5 dark:hover:bg-[#52b788]/5 transition-colors duration-150"
                           >
                             <td className="px-6 py-4 text-sm font-medium" style={{ color: "var(--text-primary)" }}>{item.name}</td>
-                            <td className="px-6 py-4 text-sm font-bold text-right text-[#2d6a4f]">
+                            <td className="px-6 py-4 text-sm font-bold text-right text-[#2d6a4f] dark:text-[#52b788]">
                               Rp {item.price.toLocaleString("id-ID")}
                             </td>
                             <td className="px-6 py-4 text-sm" style={{ color: "var(--text-muted)" }}>/ {item.unit}</td>
@@ -121,44 +122,41 @@ export default async function KatalogPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <ScrollReveal variant="fade-up" delayMs={100}>
               {/* Jadwal */}
               <div
-                className="p-6 rounded-sm mb-4"
-                style={{ backgroundColor: "rgba(45,106,79,0.07)", border: "1px solid rgba(45,106,79,0.2)" }}
+                className="p-6 rounded-2xl mb-6 glass-card glow-card-hover border-l-4 border-l-[#2d6a4f]"
               >
-                <p className="text-xs font-bold tracking-widest uppercase text-[#2d6a4f] mb-2">Jadwal Nabung</p>
-                <p className="text-sm font-semibold mb-1" style={{ color: "var(--text-primary)" }}>Setiap Rabu & Sabtu</p>
-                <p className="text-sm" style={{ color: "var(--text-secondary)" }}>Pukul 14.00 — 16.00 WIB</p>
+                <p className="text-xs font-bold tracking-widest uppercase text-[#2d6a4f] dark:text-[#52b788] mb-2">Jadwal Nabung</p>
+                <p className="text-sm font-bold mb-1" style={{ color: "var(--text-primary)" }}>Setiap Rabu & Sabtu</p>
+                <p className="text-xs" style={{ color: "var(--text-secondary)" }}>Pukul 14.00 — 16.00 WIB</p>
               </div>
 
               <div
-                className="p-6 rounded-sm mb-4"
-                style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-default)" }}
+                className="p-6 rounded-2xl mb-6 glass-card glow-card-hover"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-[#d8f3dc] rounded-sm flex items-center justify-center">
-                    <TrendingUp className="w-4 h-4 text-[#2d6a4f]" />
+                  <div className="w-8 h-8 bg-[#2d6a4f]/10 rounded-lg flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4 text-[#2d6a4f] dark:text-[#52b788]" />
                   </div>
                   <h3 className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>Informasi Harga</h3>
                 </div>
-                <p className="text-sm leading-relaxed text-justify" style={{ color: "var(--text-secondary)" }}>
+                <p className="text-xs leading-relaxed text-justify" style={{ color: "var(--text-muted)" }}>
                   Harga yang tercantum adalah harga acuan standar. Harga riil dapat dipengaruhi oleh kondisi kebersihan sampah dan fluktuasi harga pasar dari pihak pengepul utama.
                 </p>
               </div>
 
               <div
-                className="p-6 rounded-sm"
-                style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-default)" }}
+                className="p-6 rounded-2xl glass-card glow-card-hover"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-amber-100 rounded-sm flex items-center justify-center">
-                    <HelpCircle className="w-4 h-4 text-amber-600" />
+                  <div className="w-8 h-8 bg-amber-100 dark:bg-amber-950/20 rounded-lg flex items-center justify-center">
+                    <HelpCircle className="w-4 h-4 text-amber-600 dark:text-amber-500" />
                   </div>
                   <h3 className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>Syarat & Ketentuan</h3>
                 </div>
-                <ul className="text-sm space-y-3" style={{ color: "var(--text-secondary)" }}>
+                <ul className="text-xs space-y-3" style={{ color: "var(--text-muted)" }}>
                   {[
                     "Pastikan sampah sudah dalam keadaan bersih dan kering.",
                     "Pisahkan botol plastik dari tutupnya, bersihkan dari sisa cairan.",
