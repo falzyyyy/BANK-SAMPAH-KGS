@@ -15,6 +15,8 @@ type WastePrice = {
   category: { name: string };
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function KatalogPage() {
   const supabase = await createClient();
   const { data: prices } = await supabase

@@ -14,6 +14,8 @@ import ThreeDShapes from "@/components/ui/ThreeDShapes";
 import WasteChart from "@/components/ui/WasteChart";
 
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   // Default values
   let totalSampah = 1500.5;
