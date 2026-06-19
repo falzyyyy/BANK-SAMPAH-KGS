@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { Contact2, Save, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function AdminKontak() {
@@ -12,30 +11,20 @@ export default function AdminKontak() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  const supabase = createClient();
-
   useEffect(() => {
     async function fetchContact() {
       try {
-        const { data, error } = await supabase
-          .from("contact_info")
-          .select("*")
-          .order("id", { ascending: true })
-          .limit(1)
-          .single();
-
-        if (error) {
-          console.warn("Menggunakan data default (Supabase belum di-setup / kosong).", error);
-          setAddress("Jl Sersan Zaini RT.27 No.2819, Palembang");
-          setWhatsappNumber("082322013726");
-          setInstagramHandle("@banksampahkgs");
-        } else if (data) {
-          setAddress(data.address);
-          setWhatsappNumber(data.whatsapp_number);
-          setInstagramHandle(data.instagram_handle);
+        const res = await fetch("/api/admin/kontak");
+        const json = await res.json();
+        if (json.data) {
+          setAddress(json.data.address || "");
+          setWhatsappNumber(json.data.whatsapp_number || "");
+          setInstagramHandle(json.data.instagram_handle || "");
         }
-      } catch (err) {
-        console.error(err);
+      } catch {
+        setAddress("Jl Sersan Zaini RT.27 No.2819, Palembang");
+        setWhatsappNumber("082322013726");
+        setInstagramHandle("@banksampahkgs");
       } finally {
         setLoading(false);
       }
@@ -49,45 +38,23 @@ export default function AdminKontak() {
     setMessage(null);
 
     try {
-      const { data: existing } = await supabase
-        .from("contact_info")
-        .select("id")
-        .limit(1);
+      const res = await fetch("/api/admin/kontak", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address,
+          whatsapp_number: whatsappNumber,
+          instagram_handle: instagramHandle,
+        }),
+      });
 
-      let error;
-
-      if (existing && existing.length > 0) {
-        // Update
-        const { error: err } = await supabase
-          .from("contact_info")
-          .update({
-            address,
-            whatsapp_number: whatsappNumber,
-            instagram_handle: instagramHandle,
-          })
-          .eq("id", existing[0].id);
-        error = err;
-      } else {
-        // Insert
-        const { error: err } = await supabase
-          .from("contact_info")
-          .insert([
-            {
-              address,
-              whatsapp_number: whatsappNumber,
-              instagram_handle: instagramHandle,
-            },
-          ]);
-        error = err;
-      }
-
-      if (error) throw error;
-
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Gagal menyimpan.");
       setMessage({ type: "success", text: "Informasi kontak berhasil disimpan ke database Supabase!" });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setMessage({
         type: "error",
-        text: `Gagal menyimpan data: ${err?.message || "Pastikan tabel 'contact_info' sudah dibuat di Supabase SQL Editor."}`,
+        text: `Gagal menyimpan data: ${(err as Error).message}`,
       });
     } finally {
       setSaving(false);

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { BarChart3, Save, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function AdminStatistik() {
@@ -11,28 +10,19 @@ export default function AdminStatistik() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  const supabase = createClient();
-
   useEffect(() => {
     async function fetchStats() {
       try {
-        const { data, error } = await supabase
-          .from("statistics")
-          .select("*")
-          .order("id", { ascending: true })
-          .limit(1)
-          .single();
-
-        if (error) {
-          console.warn("Menggunakan data default (Supabase belum di-setup / kosong).", error);
-          setTotalSampah(1500.5);
-          setTotalNasabah(120);
-        } else if (data) {
-          setTotalSampah(Number(data.total_sampah));
-          setTotalNasabah(Number(data.total_nasabah));
+        const res = await fetch("/api/admin/statistik");
+        const json = await res.json();
+        if (json.data) {
+          setTotalSampah(Number(json.data.total_sampah));
+          setTotalNasabah(Number(json.data.total_nasabah));
         }
       } catch (err) {
-        console.error(err);
+        console.warn("Menggunakan nilai default:", err);
+        setTotalSampah(1500.5);
+        setTotalNasabah(120);
       } finally {
         setLoading(false);
       }
@@ -46,47 +36,19 @@ export default function AdminStatistik() {
     setMessage(null);
 
     try {
-      // Coba cari row pertama
-      const { data: existing } = await supabase
-        .from("statistics")
-        .select("id")
-        .limit(1);
+      const res = await fetch("/api/admin/statistik", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ total_sampah: totalSampah, total_nasabah: totalNasabah }),
+      });
 
-      let error;
-
-      if (existing && existing.length > 0) {
-        // Update
-        const { error: err } = await supabase
-          .from("statistics")
-          .update({
-            total_sampah: totalSampah,
-            total_nasabah: totalNasabah,
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", existing[0].id);
-        error = err;
-      } else {
-        // Insert
-        const { error: err } = await supabase
-          .from("statistics")
-          .insert([
-            {
-              total_sampah: totalSampah,
-              total_nasabah: totalNasabah,
-            },
-          ]);
-        error = err;
-      }
-
-      if (error) {
-        throw error;
-      }
-
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Gagal menyimpan.");
       setMessage({ type: "success", text: "Statistik berhasil disimpan ke database Supabase!" });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setMessage({
         type: "error",
-        text: `Gagal menyimpan data: ${err?.message || "Pastikan tabel 'statistics' sudah dibuat di Supabase SQL Editor."}`,
+        text: `Gagal menyimpan data: ${(err as Error).message}`,
       });
     } finally {
       setSaving(false);
