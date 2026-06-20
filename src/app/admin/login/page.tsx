@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Leaf, Mail, Lock, Loader2, ArrowLeft } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -66,8 +67,14 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm animate-fade-up">
         {/* Logo */}
         <div className="flex flex-col items-center mb-12">
-          <div className="w-12 h-12 bg-[#2d6a4f] rounded-sm flex items-center justify-center mb-5">
-            <Leaf className="w-6 h-6 text-white" />
+          <div className="relative w-16 h-16 mb-5">
+            <Image
+              src="/logo_kgs_icon.png"
+              alt="Logo Bank Sampah KGS"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
           <span className="label-tag mb-1">Bank Sampah KGS</span>
           <h1 className="font-serif text-3xl text-[#1a1a2e] mt-3">Admin Panel</h1>

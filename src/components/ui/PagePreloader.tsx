@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Leaf } from "lucide-react";
+import Image from "next/image";
 
 export default function PagePreloader() {
   const [show, setShow] = useState(true);
@@ -37,8 +37,14 @@ export default function PagePreloader() {
     >
       <div className="flex flex-col items-center gap-4">
         {/* Animated Logo Container */}
-        <div className="relative w-16 h-16 flex items-center justify-center rounded-[6px] bg-[#2d6a4f] shadow-lg animate-bounce">
-          <Leaf className="w-8 h-8 text-white animate-pulse" />
+        <div className="relative w-16 h-16 animate-bounce">
+          <Image
+            src="/logo_kgs_icon.png"
+            alt="Logo Bank Sampah KGS"
+            fill
+            className="object-contain animate-pulse"
+            priority
+          />
           
           {/* Rotating outer spinner ring */}
           <div className="absolute -inset-2.5 rounded-full border-2 border-dashed border-[#52b788]/40 animate-spin" style={{ animationDuration: "12s" }} />

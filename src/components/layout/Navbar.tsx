@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Leaf, X, Sun, Moon, Menu } from "lucide-react";
+import Image from "next/image";
+import { X, Sun, Moon, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -43,9 +44,13 @@ export default function Navbar() {
             {/* ── LOGO ── */}
             <Link href="/" className="flex items-center gap-2.5 group shrink-0">
               <div className="relative w-7 h-7 shrink-0">
-                <div className="absolute inset-0 rounded-[3px] bg-[#2d6a4f] flex items-center justify-center">
-                  <Leaf className="w-3.5 h-3.5 text-white" />
-                </div>
+                <Image
+                  src="/logo_kgs_icon.png"
+                  alt="Logo Bank Sampah KGS"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
               <div className="flex flex-col leading-none gap-[2px]">
                 <span
@@ -180,8 +185,13 @@ export default function Navbar() {
           style={{ borderBottom: isDark ? "1px solid #30363d" : "1px solid #f0f0f0" }}
         >
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-[#2d6a4f] rounded-[2px] flex items-center justify-center">
-              <Leaf className="w-3 h-3 text-white" />
+            <div className="relative w-6 h-6 shrink-0">
+              <Image
+                src="/logo_kgs_icon.png"
+                alt="Logo Bank Sampah KGS"
+                fill
+                className="object-contain"
+              />
             </div>
             <span
               className="text-xs font-bold tracking-widest uppercase"

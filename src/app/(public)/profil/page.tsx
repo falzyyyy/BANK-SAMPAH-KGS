@@ -24,16 +24,27 @@ export default function ProfilPage() {
     <div className="min-h-screen pb-24" style={{ backgroundColor: "var(--bg-primary)" }}>
       {/* Page Header */}
       <div className="bg-[#2d6a4f] pt-28 pb-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="mb-4">
-            <span className="label-tag text-[#95d5b2] border-[#95d5b2] inline-block animate-slide-right">Tentang Kami</span>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-2xl">
+            <div className="mb-4">
+              <span className="label-tag text-[#95d5b2] border-[#95d5b2] inline-block animate-slide-right">Tentang Kami</span>
+            </div>
+            <h1 className="font-serif text-4xl md:text-5xl text-white leading-tight animate-fade-up">
+              Profil Bank Sampah KGS
+            </h1>
+            <p className="text-white/60 mt-4 text-sm leading-relaxed animate-fade-up delay-100">
+              Mengenal lebih dekat perjalanan dan tujuan kami dalam menjaga kelestarian lingkungan serta memberdayakan masyarakat Palembang.
+            </p>
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl text-white leading-tight animate-fade-up">
-            Profil Bank Sampah KGS
-          </h1>
-          <p className="text-white/60 mt-4 max-w-xl text-sm leading-relaxed animate-fade-up delay-100">
-            Mengenal lebih dekat perjalanan dan tujuan kami dalam menjaga kelestarian lingkungan serta memberdayakan masyarakat Palembang.
-          </p>
+          <div className="relative w-40 h-40 md:w-48 md:h-48 shrink-0 bg-white/5 backdrop-blur-sm rounded-2xl p-4 flex items-center justify-center border border-white/10 animate-fade-in">
+            <Image
+              src="/logo_kgs_full.png"
+              alt="Official Logo Bank Sampah KGS"
+              fill
+              className="object-contain p-4"
+              priority
+            />
+          </div>
         </div>
       </div>
 

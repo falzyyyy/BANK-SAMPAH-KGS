@@ -126,25 +126,23 @@ export default function KontakPage() {
           </div>
 
           {/* Map */}
-          <div>
-            <ScrollReveal variant="fade-up" delayMs={100}>
+          <div className="h-full">
+            <ScrollReveal variant="fade-up" delayMs={100} className="h-full flex flex-col">
               <div className="mb-6">
                 <span className="label-tag inline-block">Lokasi</span>
               </div>
               <div
-                className="overflow-hidden rounded-sm h-[400px] lg:h-full min-h-[400px]"
+                className="overflow-hidden rounded-sm flex-1 min-h-[400px] relative"
                 style={{ border: "1px solid var(--border-default)" }}
               >
                 <iframe
                   src="https://maps.google.com/maps?q=Jl%20Sersan%20Zaini%20Palembang&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                  width="100%"
-                  height="100%"
                   style={{ border: 0 }}
                   allowFullScreen={false}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Peta Lokasi Bank Sampah KGS Palembang"
-                  className="w-full h-full"
+                  className="absolute inset-0 w-full h-full"
                 />
               </div>
             </ScrollReveal>

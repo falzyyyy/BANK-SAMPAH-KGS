@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Leaf, MapPin, Phone, AtSign, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import { MapPin, Phone, AtSign, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,8 +37,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-3 group w-fit">
-              <div className="w-8 h-8 bg-[#2d6a4f] rounded-sm flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
+              <div className="relative w-8 h-8 shrink-0">
+                <Image
+                  src="/logo_kgs_icon.png"
+                  alt="Logo Bank Sampah KGS"
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div className="flex flex-col leading-tight">
                 <span className="font-semibold text-sm tracking-tight text-white">Bank Sampah KGS</span>

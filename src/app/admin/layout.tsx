@@ -11,11 +11,11 @@ import {
   Image as ImageIcon,
   LogOut,
   Menu,
-  X,
-  Leaf
+  X
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLayout({
   children,
@@ -65,8 +65,13 @@ export default function AdminLayout({
       `}>
         <div className="h-16 flex items-center px-6 border-b border-slate-200 justify-between">
           <Link href="/admin" className="flex items-center gap-2">
-            <div className="bg-kgs-green p-1.5 rounded-full">
-              <Leaf className="w-4 h-4 text-white" />
+            <div className="relative w-8 h-8 shrink-0">
+              <Image
+                src="/logo_kgs_icon.png"
+                alt="Logo Bank Sampah KGS"
+                fill
+                className="object-contain"
+              />
             </div>
             <span className="font-bold text-lg text-slate-800">Admin KGS</span>
           </Link>
