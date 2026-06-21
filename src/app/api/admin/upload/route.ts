@@ -20,6 +20,8 @@ export async function POST(request: Request) {
     const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const filename = `${Date.now()}-${safeName}`;
 
+    let supabaseError: any = null;
+
     // 1. Coba upload ke Supabase Storage (bucket 'hero-images')
     try {
       const supabase = await createClient();
@@ -31,18 +33,32 @@ export async function POST(request: Request) {
           upsert: true,
         });
 
-      if (!error && data) {
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
         const { data: { publicUrl } } = supabase.storage
           .from("hero-images")
           .getPublicUrl(filename);
         
         return NextResponse.json({ url: publicUrl });
       }
-    } catch (storageErr) {
-      console.warn("Supabase Storage upload failed, falling back to local filesystem:", storageErr);
+    } catch (storageErr: any) {
+      supabaseError = storageErr;
+      console.warn("Supabase Storage upload failed:", storageErr);
     }
 
-    // 2. Fallback: Simpan ke folder public lokal (fs)
+    // 2. Jika di Vercel/Production, kita TIDAK boleh fallback ke local fs (karena read-only)
+    const isVercel = process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
+    if (isVercel) {
+      const errorMsg = supabaseError?.message || "Gagal mengunggah ke Supabase Storage.";
+      return NextResponse.json({ 
+        error: `Supabase Storage Error: ${errorMsg}. Pastikan bucket bernama 'hero-images' sudah dibuat di dashboard Supabase Anda, diset Public, dan memiliki kebijakan RLS (policies) yang mengizinkan unggah gambar.`
+      }, { status: 500 });
+    }
+
+    // 3. Fallback: Simpan ke folder public lokal (fs) - hanya berjalan di local dev
     const publicDir = path.join(process.cwd(), "public", "images", "hero_section");
     // Pastikan folder ada
     await mkdir(publicDir, { recursive: true });
