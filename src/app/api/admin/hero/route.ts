@@ -10,6 +10,7 @@ export async function GET() {
     const { data, error } = await supabase
       .from("hero_sections")
       .select("*")
+      .order("sort_order", { ascending: true })
       .order("id", { ascending: true });
 
     if (error) throw error;
@@ -23,11 +24,11 @@ export async function POST(request: Request) {
   try {
     const supabase = await createClient();
     const body = await request.json();
-    const { image_url, slogan, is_active } = body;
+    const { image_url, slogan, is_active, sort_order } = body;
 
     const { data, error } = await supabase
       .from("hero_sections")
-      .insert([{ image_url, slogan, is_active }])
+      .insert([{ image_url, slogan, is_active, sort_order: Number(sort_order) || 0 }])
       .select()
       .single();
 
@@ -42,11 +43,11 @@ export async function PUT(request: Request) {
   try {
     const supabase = await createClient();
     const body = await request.json();
-    const { id, image_url, slogan, is_active } = body;
+    const { id, image_url, slogan, is_active, sort_order } = body;
 
     const { data, error } = await supabase
       .from("hero_sections")
-      .update({ image_url, slogan, is_active })
+      .update({ image_url, slogan, is_active, sort_order: Number(sort_order) || 0 })
       .eq("id", id)
       .select()
       .single();

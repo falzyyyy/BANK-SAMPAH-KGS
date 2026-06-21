@@ -53,6 +53,7 @@ export default async function Home() {
       .from("hero_sections")
       .select("*")
       .eq("is_active", true)
+      .order("sort_order", { ascending: true })
       .order("id", { ascending: true });
 
     if (heroData && heroData.length > 0) {

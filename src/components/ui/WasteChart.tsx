@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TrendingUp, Package } from "lucide-react";
 
 interface DataPoint {
@@ -48,8 +48,33 @@ const categories = ["Plastik", "Kardus", "Kaleng Susu", "Kemasan Kaleng"];
 export default function WasteChart() {
   const [activeCategory, setActiveCategory] = useState<string>("Plastik");
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [totalSampah, setTotalSampah] = useState<number>(1500.5);
 
-  const data = chartData[activeCategory];
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await fetch("/api/admin/statistik");
+        const json = await res.json();
+        if (json.data && json.data.total_sampah) {
+          setTotalSampah(Number(json.data.total_sampah));
+        }
+      } catch (err) {
+        console.warn("Gagal mengambil data statistik untuk chart:", err);
+      }
+    }
+    fetchStats();
+  }, []);
+
+  // Total June in default hardcoded chart data is 750 (Plastik) + 510 (Kardus) + 310 (Kaleng Susu) + 240 (Kemasan Kaleng) = 1810 Kg
+  // We scale all chart weights proportionally so that the sum of the latest month (June) is exactly equal to the total_sampah value from the DB.
+  const defaultJuneSum = 1810;
+  const ratio = totalSampah / defaultJuneSum;
+
+  const data = chartData[activeCategory].map((d) => ({
+    month: d.month,
+    weight: Math.round(d.weight * ratio * 10) / 10,
+  }));
+
   const maxWeight = Math.max(...data.map((d) => d.weight));
   
   // SVG Dimensions

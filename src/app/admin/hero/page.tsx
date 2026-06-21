@@ -8,6 +8,7 @@ type HeroSlide = {
   image_url: string;
   slogan: string;
   is_active: boolean;
+  sort_order?: number;
 };
 
 export default function AdminHero() {
@@ -19,7 +20,37 @@ export default function AdminHero() {
   const [formImageUrl, setFormImageUrl] = useState("");
   const [formSlogan, setFormSlogan] = useState("");
   const [formIsActive, setFormIsActive] = useState(true);
+  const [formSortOrder, setFormSortOrder] = useState<number>(0);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setMessage(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Gagal mengunggah file.");
+
+      setFormImageUrl(json.url);
+      setMessage({ type: "success", text: "Gambar berhasil diunggah!" });
+    } catch (err: unknown) {
+      setMessage({ type: "error", text: (err as Error).message || "Gagal mengunggah file." });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   async function loadData() {
     setLoading(true);
@@ -31,9 +62,9 @@ export default function AdminHero() {
     } catch (err) {
       console.warn("Menggunakan data default:", err);
       setSlides([
-        { id: 1, image_url: "/images/hero_section/hs_1.jpg", slogan: "Peduli lingkungan bukan pilihan tapi kewajiban", is_active: true },
-        { id: 2, image_url: "/images/hero_section/hs_2.jpg", slogan: "Satu langkahmu memilah sampah, seribu manfaat untuk bumi", is_active: true },
-        { id: 3, image_url: "/images/hero_section/hs_3.jpg", slogan: "From Waste to Empower Each Other", is_active: true },
+        { id: 1, image_url: "/images/hero_section/hs_1.jpg", slogan: "Peduli lingkungan bukan pilihan tapi kewajiban", is_active: true, sort_order: 1 },
+        { id: 2, image_url: "/images/hero_section/hs_2.jpg", slogan: "Satu langkahmu memilah sampah, seribu manfaat untuk bumi", is_active: true, sort_order: 2 },
+        { id: 3, image_url: "/images/hero_section/hs_3.jpg", slogan: "From Waste to Empower Each Other", is_active: true, sort_order: 3 },
       ]);
     } finally {
       setLoading(false);
@@ -50,8 +81,8 @@ export default function AdminHero() {
     try {
       const method = editingId ? "PUT" : "POST";
       const body = editingId
-        ? { id: editingId, image_url: formImageUrl, slogan: formSlogan, is_active: formIsActive }
-        : { image_url: formImageUrl, slogan: formSlogan, is_active: formIsActive };
+        ? { id: editingId, image_url: formImageUrl, slogan: formSlogan, is_active: formIsActive, sort_order: formSortOrder }
+        : { image_url: formImageUrl, slogan: formSlogan, is_active: formIsActive, sort_order: formSortOrder };
 
       const res = await fetch("/api/admin/hero", {
         method,
@@ -63,7 +94,7 @@ export default function AdminHero() {
       if (!res.ok) throw new Error(json.error || "Gagal menyimpan.");
 
       setMessage({ type: "success", text: editingId ? "Slide hero berhasil diperbarui!" : "Slide hero baru berhasil ditambahkan!" });
-      setFormImageUrl(""); setFormSlogan(""); setFormIsActive(true); setEditingId(null);
+      setFormImageUrl(""); setFormSlogan(""); setFormIsActive(true); setFormSortOrder(0); setEditingId(null);
       await loadData();
     } catch (err: unknown) {
       setMessage({ type: "error", text: (err as Error).message || "Gagal menyimpan data." });
@@ -77,6 +108,7 @@ export default function AdminHero() {
     setFormImageUrl(slide.image_url);
     setFormSlogan(slide.slogan);
     setFormIsActive(slide.is_active);
+    setFormSortOrder(slide.sort_order || 0);
   };
 
   const handleDelete = async (id: number) => {
@@ -125,13 +157,48 @@ export default function AdminHero() {
           <h2 className="text-lg font-bold text-slate-800 font-serif">{editingId ? "Edit Slide" : "Tambah Slide Baru"}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-500 mb-1.5">URL Gambar</label>
-              <input type="text" value={formImageUrl} onChange={(e) => setFormImageUrl(e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-800 outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="/images/hero_section/hs_1.jpg" required />
-              <p className="text-[10px] text-slate-400 mt-1">Gunakan path lokal (`/images/...`) atau URL gambar publik.</p>
+              <label className="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Gambar (Upload atau URL)</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  value={formImageUrl} 
+                  onChange={(e) => setFormImageUrl(e.target.value)} 
+                  className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-slate-800 outline-none focus:ring-2 focus:ring-green-500 text-sm" 
+                  placeholder="/images/hero_section/hs_1.jpg" 
+                  required 
+                />
+                <label className="cursor-pointer px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg flex items-center justify-center border border-slate-200 select-none shrink-0 transition-colors">
+                  {uploading ? (
+                    <Loader2 className="w-4.5 h-4.5 animate-spin text-slate-500" />
+                  ) : (
+                    "Upload"
+                  )}
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleFileUpload} 
+                    className="hidden" 
+                    disabled={uploading}
+                  />
+                </label>
+              </div>
+              <p className="text-[10px] text-slate-400 mt-1">Gunakan path lokal, URL gambar, atau klik tombol Upload untuk mengunggah berkas lokal.</p>
             </div>
             <div>
               <label className="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Slogan / Headline</label>
               <textarea rows={3} value={formSlogan} onChange={(e) => setFormSlogan(e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-800 outline-none focus:ring-2 focus:ring-green-500 text-sm resize-none" placeholder="Peduli lingkungan bukan pilihan tapi kewajiban" required />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Urutan Tampilan</label>
+              <input 
+                type="number" 
+                value={formSortOrder} 
+                onChange={(e) => setFormSortOrder(Number(e.target.value))} 
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-800 outline-none focus:ring-2 focus:ring-green-500 text-sm" 
+                placeholder="Contoh: 1 (Lebih kecil tampil lebih dulu)" 
+                required 
+              />
+              <p className="text-[10px] text-slate-400 mt-1">Angka lebih kecil akan ditampilkan lebih dulu (misal: 1, 2, 3).</p>
             </div>
             <div className="flex items-center gap-2">
               <input type="checkbox" id="is_active" checked={formIsActive} onChange={(e) => setFormIsActive(e.target.checked)} className="rounded text-green-600 focus:ring-green-500 w-4 h-4" />
@@ -143,7 +210,7 @@ export default function AdminHero() {
                 {editingId ? "Simpan" : "Tambah"}
               </button>
               {editingId && (
-                <button type="button" onClick={() => { setEditingId(null); setFormImageUrl(""); setFormSlogan(""); setFormIsActive(true); }} className="py-2 px-4 border border-slate-200 text-slate-600 text-xs font-semibold uppercase rounded-lg hover:bg-slate-50 transition-colors">Batal</button>
+                <button type="button" onClick={() => { setEditingId(null); setFormImageUrl(""); setFormSlogan(""); setFormIsActive(true); setFormSortOrder(0); }} className="py-2 px-4 border border-slate-200 text-slate-600 text-xs font-semibold uppercase rounded-lg hover:bg-slate-50 transition-colors">Batal</button>
               )}
             </div>
           </form>
@@ -162,6 +229,7 @@ export default function AdminHero() {
                     {slide.is_active ? "Aktif" : "Tidak Aktif"}
                   </span>
                   <span className="text-xs text-slate-400 font-mono">ID: {slide.id}</span>
+                  <span className="text-xs text-slate-500 font-semibold bg-slate-100 px-2 py-0.5 rounded">Urutan: {slide.sort_order ?? 0}</span>
                 </div>
                 <h3 className="font-semibold text-slate-800 text-sm leading-relaxed">&quot;{slide.slogan}&quot;</h3>
                 <p className="text-xs text-slate-400 truncate">URL: {slide.image_url}</p>
