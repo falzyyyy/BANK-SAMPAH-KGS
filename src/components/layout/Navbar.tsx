@@ -10,9 +10,10 @@ import { useTheme } from "@/contexts/ThemeContext";
 const navLinks = [
   { name: "Beranda", path: "/", num: "01" },
   { name: "Profil", path: "/profil", num: "02" },
-  { name: "Katalog", path: "/katalog", num: "03" },
-  { name: "Edukasi", path: "/edukasi", num: "04" },
-  { name: "Kontak", path: "/kontak", num: "05" },
+  { name: "Katalog Sampah", path: "/katalog", num: "03" },
+  { name: "Produk", path: "/produk", num: "04" },
+  { name: "Edukasi", path: "/edukasi", num: "05" },
+  { name: "Kontak", path: "/kontak", num: "06" },
 ];
 
 export default function Navbar() {

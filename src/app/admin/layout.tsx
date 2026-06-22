@@ -11,7 +11,8 @@ import {
   Image as ImageIcon,
   LogOut,
   Menu,
-  X
+  X,
+  ShoppingBag
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -35,6 +36,7 @@ export default function AdminLayout({
     { name: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" />, path: "/admin" },
     { name: "Statistik", icon: <BarChart3 className="w-5 h-5" />, path: "/admin/statistik" },
     { name: "Katalog Harga", icon: <BookOpen className="w-5 h-5" />, path: "/admin/katalog" },
+    { name: "Katalog Produk", icon: <ShoppingBag className="w-5 h-5" />, path: "/admin/produk" },
     { name: "Kontak", icon: <Contact2 className="w-5 h-5" />, path: "/admin/kontak" },
     { name: "Hero Section", icon: <ImageIcon className="w-5 h-5" />, path: "/admin/hero" },
   ];

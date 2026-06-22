@@ -26,6 +26,7 @@ export default async function Home() {
     day: "numeric", month: "long", year: "numeric"
   });
   let dbSlides: any[] | undefined = undefined;
+  let dbProducts: any[] | undefined = undefined;
 
   try {
     const supabase = await createClient();
@@ -76,6 +77,18 @@ export default async function Home() {
         };
       });
     }
+
+    // Ambil 3 data produk hasil daur ulang teratas
+    const { data: productsData } = await supabase
+      .from("products")
+      .select("*")
+      .eq("is_available", true)
+      .order("id", { ascending: false })
+      .limit(3);
+
+    if (productsData && productsData.length > 0) {
+      dbProducts = productsData;
+    }
   } catch (error) {
     console.error("Gagal mengambil data dari Supabase:", error);
   }
@@ -119,6 +132,23 @@ export default async function Home() {
     { name: "Kardus", icon: <Package className="w-4 h-4" /> },
     { name: "Kaleng Susu", icon: <Package className="w-4 h-4" /> },
     { name: "Kemasan Kaleng", icon: <Package className="w-4 h-4" /> },
+  ];
+
+  const defaultProducts = dbProducts || [
+    { 
+      id: 1, 
+      name: "Pupuk Kompos Organik Super", 
+      description: "Pupuk hasil olahan sampah organik dedaunan dan sisa makanan yang difermentasi dengan EM4, sangat subur untuk tanaman hias.", 
+      price: 15000, 
+      image_url: "/images/hero_section/hs_2.jpg" 
+    },
+    { 
+      id: 2, 
+      name: "Kerajinan Pot Bunga Plastik", 
+      description: "Pot tanaman hias estetik berdiameter 15cm yang terbuat dari daur ulang botol plastik bekas.", 
+      price: 10000, 
+      image_url: "/images/hero_section/hs_1.jpg" 
+    },
   ];
 
   return (
@@ -328,16 +358,92 @@ export default async function Home() {
                 </p>
               </div>
               <Link href="/kontak" className="btn-outline border-white/40 text-white hover:bg-white hover:text-[#2d6a4f] shrink-0">
-                Lihat Lokasi
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+              Lihat Lokasi
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
+    </ScrollReveal>
 
-      {/* ─── Program ─── */}
-      <section className="py-24" style={{ backgroundColor: "var(--bg-primary)" }}>
+    {/* ─── Seksi Produk Pilihan ─── */}
+    <section className="py-24" style={{ backgroundColor: "var(--bg-secondary)", borderTop: "1px solid var(--border-default)", borderBottom: "1px solid var(--border-default)" }}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <ScrollReveal variant="fade-up">
+          <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="max-w-xl">
+              <div className="mb-4">
+                <span className="label-tag inline-block">Produk Daur Ulang</span>
+              </div>
+              <h2 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: "var(--text-primary)" }}>
+                Produk Kreatif<br />
+                Pilihan Hasil Daur Ulang
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                Kreativitas merubah barang bekas menjadi produk yang bermanfaat dan bernilai guna tinggi.
+              </p>
+            </div>
+            <Link href="/produk" className="btn-primary shrink-0 flex items-center gap-2">
+              Lihat Semua Produk
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {defaultProducts.map((product: any, idx: number) => {
+            const formatRupiah = (val: number) => {
+              return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0
+              }).format(val);
+            };
+
+            return (
+              <ScrollReveal key={product.id} variant="fade-up" delayMs={idx * 100}>
+                <div className="group bg-white dark:bg-[#161b22] rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col justify-between hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+                  <div>
+                    <div className="h-60 bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={product.image_url || "/images/hero_section/hs_1.jpg"} 
+                        alt={product.name} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="p-6 space-y-2">
+                      <h3 className="font-serif font-bold text-lg leading-relaxed line-clamp-1" style={{ color: "var(--text-primary)" }}>
+                        {product.name}
+                      </h3>
+                      <p className="text-xs line-clamp-3 leading-relaxed min-h-[50px]" style={{ color: "var(--text-secondary)" }}>
+                        {product.description || "Tidak ada deskripsi produk."}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="p-6 pt-0">
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-slate-800/50">
+                      <span className="text-base font-bold text-[#2d6a4f] dark:text-[#52b788]">{formatRupiah(product.price)}</span>
+                      <Link 
+                        href={`https://wa.me/6282322013726?text=${encodeURIComponent("Halo Admin Bank Sampah KGS Palembang, saya tertarik untuk membeli produk \"" + product.name + "\" seharga " + formatRupiah(product.price) + ". Apakah produk ini masih tersedia?")}`}
+                        target="_blank"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-[#2d6a4f] dark:text-[#52b788] hover:gap-2 transition-all"
+                      >
+                        Beli Sekarang
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    {/* ─── Program ─── */}
+    <section className="py-24" style={{ backgroundColor: "var(--bg-primary)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ScrollReveal variant="fade-up">
             <div className="mb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
